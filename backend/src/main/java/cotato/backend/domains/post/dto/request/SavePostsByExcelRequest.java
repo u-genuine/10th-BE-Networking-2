@@ -1,4 +1,4 @@
-package cotato.backend.domains.estate.dto.request;
+package cotato.backend.domains.post.dto.request;
 
 import lombok.AccessLevel;
 import lombok.Data;

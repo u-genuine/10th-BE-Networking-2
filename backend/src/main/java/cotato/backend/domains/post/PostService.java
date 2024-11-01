@@ -1,4 +1,4 @@
-package cotato.backend.domains.estate;
+package cotato.backend.domains.post;
 
 import static cotato.backend.common.exception.ErrorCode.*;
 
@@ -34,7 +34,6 @@ public class PostService {
 				})
 				.collect(Collectors.toList());
 
-			// 저장 로직 구현 필요 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		} catch (Exception e) {
 			log.error("Failed to save estates by excel", e);
 			throw ApiException.from(INTERNAL_SERVER_ERROR);

@@ -1,4 +1,4 @@
-package cotato.backend.domains.estate;
+package cotato.backend.domains.post;
 
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
