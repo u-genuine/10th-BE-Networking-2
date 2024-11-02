@@ -44,7 +44,7 @@ public class Post {
 		this.views = 0L;
 	}
 
-	public static Post of(SavePostRequest savePostRequest) {
+	public static Post from(SavePostRequest savePostRequest) {
 		return new Post(
 			savePostRequest.getTitle(),
 			savePostRequest.getContent(),
