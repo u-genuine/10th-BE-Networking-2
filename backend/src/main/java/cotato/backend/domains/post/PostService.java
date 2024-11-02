@@ -54,4 +54,9 @@ public class PostService {
 
 		postRepository.save(post);
 	}
+
+	public void findPostById(Long postId) {
+		postRepository.findById(postId)
+			.orElseThrow(() -> ApiException.from(POST_NOT_FOUND));
+	}
 }
