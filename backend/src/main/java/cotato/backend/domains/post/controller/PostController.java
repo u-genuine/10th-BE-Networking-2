@@ -1,6 +1,7 @@
-package cotato.backend.domains.post;
+package cotato.backend.domains.post.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cotato.backend.common.dto.DataResponse;
+import cotato.backend.domains.post.service.PostService;
 import cotato.backend.domains.post.dto.request.SavePostRequest;
 import cotato.backend.domains.post.dto.request.SavePostsByExcelRequest;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,13 @@ public class PostController {
 	@GetMapping("/{postId}")
 	public ResponseEntity<DataResponse<Void>> findPostById(@RequestParam Long postId) {
 		postService.findPostById(postId);
+
+		return ResponseEntity.ok(DataResponse.ok());
+	}
+
+	@DeleteMapping("/{postId}")
+	public ResponseEntity<DataResponse<Void>> deletePostById(@RequestParam Long postId) {
+		postService.deletePostById(postId);
 
 		return ResponseEntity.ok(DataResponse.ok());
 	}

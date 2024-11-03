@@ -1,4 +1,4 @@
-package cotato.backend.domains.post;
+package cotato.backend.domains.post.service;
 
 import static cotato.backend.common.exception.ErrorCode.*;
 
@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cotato.backend.common.excel.ExcelUtils;
 import cotato.backend.common.exception.ApiException;
+import cotato.backend.domains.post.entity.Post;
 import cotato.backend.domains.post.dto.request.SavePostRequest;
 import cotato.backend.domains.post.repository.PostJDBCRepository;
 import cotato.backend.domains.post.repository.PostRepository;
@@ -55,8 +56,14 @@ public class PostService {
 		postRepository.save(post);
 	}
 
+	// 글 조회
 	public void findPostById(Long postId) {
 		postRepository.findById(postId)
 			.orElseThrow(() -> ApiException.from(POST_NOT_FOUND));
+	}
+
+	// 글 삭제
+	public void deletePostById(Long postId) {
+		postRepository.deleteById(postId);
 	}
 }

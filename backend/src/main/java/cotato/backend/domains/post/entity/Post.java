@@ -1,4 +1,4 @@
-package cotato.backend.domains.post;
+package cotato.backend.domains.post.entity;
 
 import static jakarta.persistence.GenerationType.*;
 
