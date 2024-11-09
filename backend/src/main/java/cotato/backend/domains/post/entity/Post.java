@@ -51,4 +51,8 @@ public class Post {
 			savePostRequest.getName()
 		);
 	}
+
+	public void increaseViews() {
+		this.views++;
+	}
 }

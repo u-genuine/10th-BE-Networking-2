@@ -22,13 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-@Transactional
+@Transactional(readOnly = true)
 public class PostService {
 
 	private final PostJDBCRepository postJDBCRepository;
 	private final PostRepository postRepository;
 
 	// 로컬 파일 경로로부터 엑셀 파일을 읽어 Post 엔터티로 변환하고 저장
+	@Transactional
 	public void saveEstatesByExcel(String filePath) {
 		try {
 			// 엑셀 파일을 읽어 데이터 프레임 형태로 변환
@@ -51,6 +52,7 @@ public class PostService {
 	}
 
 	// 글 저장
+	@Transactional
 	public void save(SavePostRequest request) {
 		Post post = Post.from(request);
 
@@ -58,14 +60,19 @@ public class PostService {
 	}
 
 	// 글 조회
+	@Transactional
 	public FindPostByIdResponse findPostById(Long postId) {
 		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> ApiException.from(POST_NOT_FOUND));
+
+		// 조회수 증가
+		post.increaseViews();
 
 		return FindPostByIdResponse.from(post);
 	}
 
 	// 글 삭제
+	@Transactional
 	public void deletePostById(Long postId) {
 		postRepository.deleteById(postId);
 	}
