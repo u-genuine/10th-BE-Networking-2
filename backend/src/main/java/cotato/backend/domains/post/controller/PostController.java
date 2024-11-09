@@ -3,16 +3,17 @@ package cotato.backend.domains.post.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cotato.backend.common.dto.DataResponse;
-import cotato.backend.domains.post.service.PostService;
 import cotato.backend.domains.post.dto.request.SavePostRequest;
 import cotato.backend.domains.post.dto.request.SavePostsByExcelRequest;
+import cotato.backend.domains.post.dto.response.FindPostByIdResponse;
+import cotato.backend.domains.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -37,14 +38,14 @@ public class PostController {
 	}
 
 	@GetMapping("/{postId}")
-	public ResponseEntity<DataResponse<Void>> findPostById(@RequestParam Long postId) {
-		postService.findPostById(postId);
+	public ResponseEntity<DataResponse<FindPostByIdResponse>> findPostById(@PathVariable Long postId) {
+		FindPostByIdResponse response = postService.findPostById(postId);
 
-		return ResponseEntity.ok(DataResponse.ok());
+		return ResponseEntity.ok(DataResponse.from(response));
 	}
 
 	@DeleteMapping("/{postId}")
-	public ResponseEntity<DataResponse<Void>> deletePostById(@RequestParam Long postId) {
+	public ResponseEntity<DataResponse<Void>> deletePostById(@PathVariable Long postId) {
 		postService.deletePostById(postId);
 
 		return ResponseEntity.ok(DataResponse.ok());
