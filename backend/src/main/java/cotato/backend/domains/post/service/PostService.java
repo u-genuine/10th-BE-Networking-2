@@ -76,4 +76,13 @@ public class PostService {
 	public void deletePostById(Long postId) {
 		postRepository.deleteById(postId);
 	}
+
+	// 글목록 인기순 조회
+	public Page<FindPostsByPopularResponse> findPostsByPopular(int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page, size);
+
+		Page<Post> posts = postRepository.findAllByOrderByViewsDesc(pageRequest);
+
+		return posts.map(FindPostsByPopularResponse::from);
+	}
 }
