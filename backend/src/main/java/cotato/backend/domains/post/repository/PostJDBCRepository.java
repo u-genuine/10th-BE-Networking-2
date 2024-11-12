@@ -18,7 +18,7 @@ public class PostJDBCRepository {
 
 	@Transactional
 	public void saveAll(List<Post> posts) {
-		String sql = "INSERT INTO post (title, content, name) " +
+		String sql = "INSERT INTO post (title, content, name, views) " +
 			"VALUES (?, ?, ?, ?)";
 
 		jdbcTemplate.batchUpdate(sql,
@@ -28,6 +28,7 @@ public class PostJDBCRepository {
 				ps.setString(1, post.getTitle());
 				ps.setString(2, post.getContent());
 				ps.setString(3, post.getName());
+				ps.setLong(4, post.getViews());
 			});
 	}
 }
