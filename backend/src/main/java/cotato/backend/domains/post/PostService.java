@@ -27,7 +27,9 @@ public class PostService {
 	// 로컬 파일 경로로부터 엑셀 파일을 읽어 Post 엔터티로 변환하고 저장
 	public void saveEstatesByExcel(String filePath) {
 		try {
+
 			// 엑셀 파일을 읽어 데이터 프레임 형태로 변환
+			int batchSize = 5000; // 배치 크기 설정
 			List<Post> posts = ExcelUtils.parseExcelFile(filePath).stream()
 				.map(row -> {
 					String title = row.get("title");
@@ -37,6 +39,11 @@ public class PostService {
 					return new Post(title, content, name);
 				})
 				.collect(Collectors.toList());
+
+			for(int i = 0; i < posts.size(); i+= batchSize) {
+				List<Post> batch = posts.subList(i, Math.min(posts.size(), i + batchSize));
+				postRepository.saveAll(batch);
+			}
 
 		} catch (Exception e) {
 			log.error("Failed to save estates by excel", e);
