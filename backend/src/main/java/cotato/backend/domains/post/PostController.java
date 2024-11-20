@@ -20,6 +20,7 @@ public class PostController {
 	private final PostService postService;
 
 	@PostMapping("/excel")
+	@Operation(summary = "게시글 다중 생성 API")
 	public ResponseEntity<DataResponse<Void>> savePostsByExcel(@RequestBody SavePostsByExcelRequest request) {
 		postService.saveEstatesByExcel(request.getPath());
 
