@@ -10,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cotato.backend.common.excel.ExcelUtils;
 import cotato.backend.common.exception.ApiException;
-import cotato.backend.domains.post.dto.request.PostRepository;
+import cotato.backend.common.exception.ErrorCode;
 import cotato.backend.domains.post.dto.request.SavePostRequest;
+import cotato.backend.domains.post.dto.response.PostDetailResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,27 @@ public class PostService {
 
 		}catch (Exception e){
 			log.error("Failed to save post", e);
+			throw ApiException.from(INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	public PostDetailResponse getPost(Long postId){
+		try {
+			Post post = postRepository.findById(postId)
+				.orElseThrow(() -> ApiException.from(ErrorCode.POST_NOT_FOUND));
+
+			post.setViews(post.getViews() + 1);
+			postRepository.save(post);
+
+			return PostDetailResponse.builder()
+				.title(post.getTitle())
+				.content(post.getContent())
+				.name(post.getName())
+				.views(post.getViews())
+				.build();
+
+		} catch (Exception e){
+			log.error("Failed to get the post", e);
 			throw ApiException.from(INTERNAL_SERVER_ERROR);
 		}
 	}
