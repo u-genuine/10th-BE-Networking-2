@@ -32,7 +32,6 @@ public class Post {
 	@NotNull
 	private String name;
 
-	@ColumnDefault("0")
 	private Integer views;
 
 	@Builder
@@ -40,5 +39,6 @@ public class Post {
 		this.title = title;
 		this.content = content;
 		this.name = name;
+		this.views = 0;
 	}
 }
