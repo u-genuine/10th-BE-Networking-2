@@ -59,4 +59,11 @@ public class PostController {
 
 		return ResponseEntity.ok(DataResponse.from(postService.getPostList(page)));
 	}
+
+	@DeleteMapping("/{postId}")
+	@Operation(summary = "게시글 삭제 API")
+	public ResponseEntity<DataResponse<String>> deletePost(@PathVariable Long postId){
+		postService.deletePost(postId);
+		return ResponseEntity.ok(DataResponse.from("게시글이 성공적으로 삭제되었습니다."));
+	}
 }
