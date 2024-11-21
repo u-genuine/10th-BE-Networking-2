@@ -2,9 +2,12 @@ package cotato.backend.domains.post;
 
 import static cotato.backend.common.exception.ErrorCode.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +16,7 @@ import cotato.backend.common.exception.ApiException;
 import cotato.backend.common.exception.ErrorCode;
 import cotato.backend.domains.post.dto.request.SavePostRequest;
 import cotato.backend.domains.post.dto.response.PostDetailResponse;
+import cotato.backend.domains.post.dto.response.PostListResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,4 +87,29 @@ public class PostService {
 			throw ApiException.from(INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	public PostListResponse.PostPreviewList getPostList(Integer page){
+		try {
+			Page<Post> postPage = postRepository.findAll(PageRequest.of(page - 1, 10));
+
+			List<PostListResponse.PostPreview> postPreviewList = postPage.stream()
+				.map(post -> PostListResponse.PostPreview.builder()
+					.id(post.getId())
+					.title(post.getTitle())
+					.name(post.getName())
+					.build()
+				).collect(Collectors.toList());
+
+			return PostListResponse.PostPreviewList.builder()
+				.currentPage(postPage.getNumber() + 1)
+				.totalPage(postPage.getTotalPages())
+				.postList(postPreviewList)
+				.build();
+
+		}catch (Exception e){
+			log.error("Failed to get the post list", e);
+			throw ApiException.from(INTERNAL_SERVER_ERROR);
+		}
+	}
+
 }
