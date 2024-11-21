@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,13 +91,15 @@ public class PostService {
 
 	public PostListResponse.PostPreviewList getPostList(Integer page){
 		try {
-			Page<Post> postPage = postRepository.findAll(PageRequest.of(page - 1, 10));
+			PageRequest pageRequest = PageRequest.of(page -1 , 10, Sort.by("likes").descending());
+			Page<Post> postPage = postRepository.findAll(pageRequest);
 
 			List<PostListResponse.PostPreview> postPreviewList = postPage.stream()
 				.map(post -> PostListResponse.PostPreview.builder()
 					.id(post.getId())
 					.title(post.getTitle())
 					.name(post.getName())
+					.likes(post.getLikes())
 					.build()
 				).collect(Collectors.toList());
 

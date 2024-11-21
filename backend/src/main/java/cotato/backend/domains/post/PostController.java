@@ -53,7 +53,7 @@ public class PostController {
 	}
 
 	@GetMapping("/")
-	@Operation(summary = "게시글 목록 조회 API")
+	@Operation(summary = "게시글 목록 좋아요순으로 조회 API")
 	@Parameter(name = "page", description = "페이지 번호를 입력해주세요.")
 	public ResponseEntity<DataResponse<PostListResponse.PostPreviewList>> getPostList(@RequestParam(name = "page") Integer page){
 

@@ -34,11 +34,14 @@ public class Post {
 
 	private Integer views;
 
+	private Integer likes;
+
 	@Builder
 	public Post(String title, String content, String name) {
 		this.title = title;
 		this.content = content;
 		this.name = name;
 		this.views = 0;
+		this.likes = 0;
 	}
 }
