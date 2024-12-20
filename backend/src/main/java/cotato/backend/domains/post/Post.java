@@ -2,6 +2,7 @@ package cotato.backend.domains.post;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import cotato.backend.domains.post.dto.request.SavePostRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,13 +24,13 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@Column(nullable = false)
 	private String title;
 
-	@NotNull
+	@Column(nullable = false)
 	private String content;
 
-	@NotNull
+	@Column(nullable = false)
 	private String name;
 
 	private Integer views;
