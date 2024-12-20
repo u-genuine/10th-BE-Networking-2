@@ -58,60 +58,42 @@ public class PostService {
 	}
 
 	public void savePost(SavePostRequest request){
-		try{
-			postRepository.save(Post.toPost(request));
-
-		}catch (Exception e){
-			log.error("Failed to save post", e);
-			throw ApiException.from(INTERNAL_SERVER_ERROR);
-		}
+		postRepository.save(Post.toPost(request));
 	}
 
 	public synchronized PostDetailResponse getPost(Long postId){
-		try {
-			Post post = postRepository.findById(postId)
-				.orElseThrow(() -> ApiException.from(ErrorCode.POST_NOT_FOUND));
+		Post post = postRepository.findById(postId)
+			.orElseThrow(() -> ApiException.from(ErrorCode.POST_NOT_FOUND));
 
-			post.incrementViews();
-			postRepository.save(post);
+		post.incrementViews();
+		postRepository.save(post);
 
-			return PostDetailResponse.builder()
-				.title(post.getTitle())
-				.content(post.getContent())
-				.name(post.getName())
-				.views(post.getViews())
-				.build();
-
-		} catch (Exception e){
-			log.error("Failed to get the post", e);
-			throw ApiException.from(INTERNAL_SERVER_ERROR);
-		}
+		return PostDetailResponse.builder()
+			.title(post.getTitle())
+			.content(post.getContent())
+			.name(post.getName())
+			.views(post.getViews())
+			.build();
 	}
 
 	public PostListResponse.PostPreviewList getPostList(Integer page){
-		try {
-			PageRequest pageRequest = PageRequest.of(page -1 , 10, Sort.by("likes").descending());
-			Page<Post> postPage = postRepository.findAll(pageRequest);
+		PageRequest pageRequest = PageRequest.of(page -1 , 10, Sort.by("likes").descending());
+		Page<Post> postPage = postRepository.findAll(pageRequest);
 
-			List<PostListResponse.PostPreview> postPreviewList = postPage.stream()
-				.map(post -> PostListResponse.PostPreview.builder()
-					.id(post.getId())
-					.title(post.getTitle())
-					.name(post.getName())
-					.likes(post.getLikes())
-					.build()
-				).collect(Collectors.toList());
+		List<PostListResponse.PostPreview> postPreviewList = postPage.stream()
+			.map(post -> PostListResponse.PostPreview.builder()
+				.id(post.getId())
+				.title(post.getTitle())
+				.name(post.getName())
+				.likes(post.getLikes())
+				.build()
+			).collect(Collectors.toList());
 
-			return PostListResponse.PostPreviewList.builder()
-				.currentPage(postPage.getNumber() + 1)
-				.totalPage(postPage.getTotalPages())
-				.postList(postPreviewList)
-				.build();
-
-		}catch (Exception e){
-			log.error("Failed to get the post list", e);
-			throw ApiException.from(INTERNAL_SERVER_ERROR);
-		}
+		return PostListResponse.PostPreviewList.builder()
+			.currentPage(postPage.getNumber() + 1)
+			.totalPage(postPage.getTotalPages())
+			.postList(postPreviewList)
+			.build();
 	}
 
 	public void deletePost(Long postId){
