@@ -17,7 +17,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
 	@Id
@@ -52,5 +51,9 @@ public class Post {
 			.content(postDTO.getContent())
 			.name(postDTO.getName())
 			.build();
+	}
+
+	public void incrementViews() {
+		this.views++;
 	}
 }

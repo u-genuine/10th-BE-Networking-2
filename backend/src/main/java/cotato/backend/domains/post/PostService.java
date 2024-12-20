@@ -72,7 +72,7 @@ public class PostService {
 			Post post = postRepository.findById(postId)
 				.orElseThrow(() -> ApiException.from(ErrorCode.POST_NOT_FOUND));
 
-			post.setViews(post.getViews() + 1);
+			post.incrementViews();
 			postRepository.save(post);
 
 			return PostDetailResponse.builder()
