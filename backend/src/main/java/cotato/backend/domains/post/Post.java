@@ -45,4 +45,12 @@ public class Post {
 		this.views = 0;
 		this.likes = 0;
 	}
+
+	public static Post toPost(SavePostRequest postDTO){
+		return Post.builder()
+			.title(postDTO.getTitle())
+			.content(postDTO.getContent())
+			.name(postDTO.getName())
+			.build();
+	}
 }

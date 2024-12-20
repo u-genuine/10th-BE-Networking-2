@@ -59,8 +59,7 @@ public class PostService {
 
 	public void savePost(SavePostRequest request){
 		try{
-			Post post = new Post(request.getTitle(), request.getContent(), request.getName());
-			postRepository.save(post);
+			postRepository.save(Post.toPost(request));
 
 		}catch (Exception e){
 			log.error("Failed to save post", e);
