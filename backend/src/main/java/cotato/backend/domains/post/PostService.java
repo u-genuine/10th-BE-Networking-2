@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-@Transactional
 public class PostService {
 
 	private final PostRepository postRepository;
@@ -36,6 +35,7 @@ public class PostService {
 
 			// 엑셀 파일을 읽어 데이터 프레임 형태로 변환
 			int batchSize = 5000; // 배치 크기 설정
+
 			List<Post> posts = ExcelUtils.parseExcelFile(filePath).stream()
 				.map(row -> {
 					String title = row.get("title");
@@ -68,7 +68,7 @@ public class PostService {
 		}
 	}
 
-	public PostDetailResponse getPost(Long postId){
+	public synchronized PostDetailResponse getPost(Long postId){
 		try {
 			Post post = postRepository.findById(postId)
 				.orElseThrow(() -> ApiException.from(ErrorCode.POST_NOT_FOUND));
