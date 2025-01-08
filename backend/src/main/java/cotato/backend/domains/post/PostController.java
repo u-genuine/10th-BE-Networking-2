@@ -38,7 +38,7 @@ public class PostController {
 		return ResponseEntity.ok(DataResponse.ok());
 	}
 
-	@PostMapping("/")
+	@PostMapping("")
 	@Operation(summary = "게시글 단일 생성 API")
 	public ResponseEntity<DataResponse<Void>> savePost(@RequestBody SavePostRequest request){
 		postService.savePost(request);
@@ -52,8 +52,8 @@ public class PostController {
 		return ResponseEntity.ok(DataResponse.from(postService.getPost(postId)));
 	}
 
-	@GetMapping("/")
-	@Operation(summary = "게시글 목록 좋아요순으로 조회 API")
+	@GetMapping("")
+	@Operation(summary = "게시글 목록 인기순으로 조회 API")
 	@Parameter(name = "page", description = "페이지 번호를 입력해주세요.")
 	public ResponseEntity<DataResponse<PostListResponse.PostPreviewList>> getPostList(@RequestParam(name = "page") Integer page){
 

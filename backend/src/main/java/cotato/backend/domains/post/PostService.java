@@ -77,7 +77,7 @@ public class PostService {
 	}
 
 	public PostListResponse.PostPreviewList getPostList(Integer page){
-		PageRequest pageRequest = PageRequest.of(page -1 , 10, Sort.by("likes").descending());
+		PageRequest pageRequest = PageRequest.of(page -1 , 10, Sort.by("views").descending());
 		Page<Post> postPage = postRepository.findAll(pageRequest);
 
 		List<PostListResponse.PostPreview> postPreviewList = postPage.stream()
@@ -85,7 +85,7 @@ public class PostService {
 				.id(post.getId())
 				.title(post.getTitle())
 				.name(post.getName())
-				.likes(post.getLikes())
+				.views(post.getViews())
 				.build()
 			).collect(Collectors.toList());
 

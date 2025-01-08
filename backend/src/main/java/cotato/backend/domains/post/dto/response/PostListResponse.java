@@ -21,6 +21,6 @@ public class PostListResponse {
 		Long id;
 		String title;
 		String name;
-		Integer likes;
+		Integer views;
 	}
 }
