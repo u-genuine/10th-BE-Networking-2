@@ -77,7 +77,7 @@ public class PostService {
 	}
 
 	public PostListResponse.PostPreviewList getPostList(Integer page){
-		PageRequest pageRequest = PageRequest.of(page -1 , 10, Sort.by("views").descending());
+		PageRequest pageRequest = PageRequest.of(page -1 , 10, Sort.by(Sort.Order.desc("views"), Sort.Order.asc("id")));
 		Page<Post> postPage = postRepository.findAll(pageRequest);
 
 		List<PostListResponse.PostPreview> postPreviewList = postPage.stream()
