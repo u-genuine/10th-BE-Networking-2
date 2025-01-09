@@ -77,6 +77,8 @@ public class PostService {
 	}
 
 	public PostListResponse.PostPreviewList getPostList(Integer page){
+		long startTime = System.currentTimeMillis(); // 시작 시간 기록
+
 		PageRequest pageRequest = PageRequest.of(page -1 , 10, Sort.by(Sort.Order.desc("views"), Sort.Order.asc("id")));
 		Page<Post> postPage = postRepository.findAll(pageRequest);
 
@@ -89,11 +91,18 @@ public class PostService {
 				.build()
 			).collect(Collectors.toList());
 
-		return PostListResponse.PostPreviewList.builder()
+		PostListResponse.PostPreviewList response = PostListResponse.PostPreviewList.builder()
 			.currentPage(postPage.getNumber() + 1)
 			.totalPage(postPage.getTotalPages())
 			.postList(postPreviewList)
 			.build();
+
+		long endTime = System.currentTimeMillis(); // 끝난 시간 기록
+
+		// 실행 시간 출력
+		System.out.println("조회 소요 시간: " + (endTime - startTime) + "ms");
+
+		return response;
 	}
 
 	public void deletePost(Long postId){
