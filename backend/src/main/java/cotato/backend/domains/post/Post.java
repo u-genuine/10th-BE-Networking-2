@@ -1,18 +1,23 @@
 package cotato.backend.domains.post;
 
 
+import org.hibernate.annotations.BatchSize;
+
 import cotato.backend.domains.post.dto.request.SavePostRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "post", indexes = {@Index(name = "idx_views", columnList = "views DESC")})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
